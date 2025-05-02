@@ -1,27 +1,36 @@
-# 🧠 AI Code Assistant Evaluation: Accelerating Developer Onboarding with GenAI
+# 🧠 Internal Exploration: GenAI Tools for Code Understanding & Documentation 
+
+## 🚀 Project Vision: Accelerating Developer Onboarding with AI
+
+This is an internal exploration initiative into Generative AI (GenAI) tools aimed at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
+
+The target outcome is an AI system capable of covering **80% of documentation and support tasks**, leaving only 20% for manual input. The envisioned tool would:
+
+- Comprehend code and business logic without full documentation
+- Fill documentation gaps using code context and existing artifacts
+- Act as an intelligent assistant for pair programming scenarios
+- Generate architecture overviews and runbooks
+- Assist new developers with rapid ramp-up and contextual support
+
+### 🔐 Data Privacy & Security Considerations
+
+A major driver in selecting tools was **data governance**:
+
+- **Copilot** and most GPT-based tools transmit context/code to cloud servers
+- **Cody + DeepSeek** allows local model use, ideal for regulated industries or IP-sensitive projects
+- Tools like **JetBrains AI** offer partial local processing but lack full Copilot-like depth
+
+---
 
 ## 🧪 Methodology
 
 To assess how AI coding assistants can streamline onboarding and documentation, we tested several leading tools and models using the real-world [Azure Pet Store](https://azurepetstore.com/) application. The primary goal was to evaluate each solution's ability to understand code and business logic, assist in documentation, and accelerate developer ramp-up time.
 
-### 🎯 Project Objectives
-
-- **Primary goal**: Accelerate developer onboarding through AI-assisted documentation
-- **Target**: 80% automated documentation/support, 20% manual work acceptable
-- **Key deliverables**:
-  - Understand code/business logic with minimal existing documentation
-  - Fill documentation gaps using available code and partial docs
-  - Act as a pair-programming assistant
-  - Generate runbooks, architecture notes, and technical documents
-  - Reduce onboarding from *weeks* to *hours*
-
----
-
-## 🤖 Model Evaluation
+### 🤖 Model Evaluation
 
 We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptional performance in code reasoning and summarization tasks. It served as the reference point against which locally hosted models were compared.
 
-### 🔍 Model Comparison
+#### 🔍 Model Comparison
 
 | Model               | Context Length | Speed     | Code Exploration Strengths                               | Limitations                                    | Local Hosting |
 |---------------------|----------------|-----------|----------------------------------------------------------|------------------------------------------------|---------------|
@@ -35,7 +44,7 @@ We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptio
 
 ---
 
-## 🧰 IDE Plugin and Tool Evaluation
+### 🧰 IDE Plugin and Tool Evaluation
 
 We focused on tools that could:
 - Integrate with **VS Code** (language/framework agnostic)
@@ -53,7 +62,7 @@ We focused on tools that could:
 
 ---
 
-## 💻 Test Codebase: Azure Pet Store
+### 💻 Test Codebase: Azure Pet Store
 
 Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase included:
 
@@ -65,13 +74,7 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 
 ---
 
-## 🔐 Data Privacy & Security Considerations
-
-A major driver in selecting tools was **data governance**:
-
-- **Copilot** and most GPT-based tools transmit context/code to cloud servers
-- **Cody + DeepSeek** allows local model use, ideal for regulated industries or IP-sensitive projects
-- Tools like **JetBrains AI** offer partial local processing but lack full Copilot-like depth
+## 📊 Results
 
 ---
 
