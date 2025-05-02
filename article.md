@@ -1,7 +1,7 @@
 # 🧠 Internal Exploration: GenAI Tools for Code Understanding & Documentation 
 
-## Executive Summary
-This exploration evaluates AI tools for code understanding and documentation generation, with a focus on privacy-preserving options for enterprise use. Testing various models against the Azure Pet Store codebase revealed that Cody with DeepSeek-R1 offers the best balance of functionality and data privacy for accelerating developer onboarding.
+## Abstract
+This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
 
 ## Table of Contents
 - [Project Vision](#-project-vision-accelerating-developer-onboarding-with-ai)
