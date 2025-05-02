@@ -1,5 +1,18 @@
 # 🧠 Internal Exploration: GenAI Tools for Code Understanding & Documentation 
 
+## Executive Summary
+This exploration evaluates AI tools for code understanding and documentation generation, with a focus on privacy-preserving options for enterprise use. Testing various models against the Azure Pet Store codebase revealed that Cody with DeepSeek-R1 offers the best balance of functionality and data privacy for accelerating developer onboarding.
+
+## Table of Contents
+- [Project Vision](#-project-vision-accelerating-developer-onboarding-with-ai)
+- [Data Privacy & Security Considerations](#-data-privacy--security-considerations)
+- [Methodology](#-methodology)
+  - [Model Evaluation](#-model-evaluation)
+  - [IDE Plugin and Tool Evaluation](#-ide-plugin-and-tool-evaluation)
+  - [Test Codebase](#-test-codebase-azure-pet-store)
+- [Results](#-results)
+- [Conclusion](#-conclusion)
+
 ## 🚀 Project Vision: Accelerating Developer Onboarding with AI
 
 This is an internal exploration initiative into Generative AI (GenAI) tools aimed at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
@@ -82,18 +95,9 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 
 As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our benchmark testing confirmed that:
 
-- **Claude Sonnet 3.7** remains the strongest cloud-based model for code reasoning and documentation generation.
+- **Claude Sonnet 3.7** remains one of the strongest cloud-based model for code reasoning and documentation generation.
 - **DeepSeek-R1**, while slightly less sophisticated, proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission.
 - **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local).
 
 For enterprises seeking to combine performance with control, **Cody + DeepSeek-R1** presents a production-ready pairing that accelerates onboarding, enhances documentation, and respects codebase privacy—marking a major step toward **AI-augmented software development**.
 
----
-
-## 📅 Next Steps
-
-- Finalize DeepSeek-R1 integration in team IDEs
-- Test Cody’s behavior on additional microservices
-- Evaluate Swim.ai for legacy/mainframe support
-- Continue iteration on file-by-file chunking strategies
-- Prepare full runbook generation prompt suite
