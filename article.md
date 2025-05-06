@@ -1,7 +1,11 @@
-# 🧠 Internal Exploration: GenAI Tools for Code Understanding & Documentation 
+# 🧠 GenAI Tools for Knowledge Extraction & Technical Documentation in Enterprise Environments: A Comparative Analysis
+
+**Authors:**  
+Erik Pegoraro - Lead Software Architect & People Lead - erik.pegoraro@zuhlke.com  
+Luis Sauerbronn - Lead Software Architect - luis.sauerbronn@zuhlke.com
 
 ## Abstract
-This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
+This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
 
 ## Table of Contents
 - [Project Vision](#-project-vision-accelerating-developer-onboarding-with-ai)
@@ -15,7 +19,7 @@ This exploration evaluates AI tools for code understanding and documentation gen
 
 ## 🚀 Project Vision: Accelerating Developer Onboarding with AI
 
-This is an internal exploration initiative into Generative AI (GenAI) tools aimed at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
+This nitiative into Generative AI (GenAI) tools aims at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
 
 The target outcome is an AI system capable of covering **80% of documentation and support tasks**, leaving only 20% for manual input. The envisioned tool would:
 
@@ -30,7 +34,7 @@ The target outcome is an AI system capable of covering **80% of documentation an
 A major driver in selecting tools was **data governance**:
 
 - **Copilot** and most GPT-based tools transmit context/code to cloud servers
-- **Cody + DeepSeek** allows local model use, ideal for regulated industries or IP-sensitive projects
+- **Cody + Ollama** allows local model use, ideal for regulated industries or IP-sensitive projects
 - Tools like **JetBrains AI** offer partial local processing but lack full Copilot-like depth
 
 ---
@@ -52,8 +56,11 @@ We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptio
 | **Gemini 1.5 Flash** | 1M tokens       | ⚡⚡ Very fast | Efficient with large contexts, fast recall               | Weaker code understanding depth                | ❌             |
 | **GPT-4o**          | 128K tokens     | ⚡⚡ Very fast | Strong NL/code interaction, solid doc generation         | Smaller context, cloud-based                   | ❌             |
 | **DeepSeek-R1**     | 128K tokens     | ⚡ Fast     | Open-source model, excellent local deployment option     | Slightly behind Claude in nuanced reasoning    | ✅             |
-| **O1 (OpenChat)**   | 128K tokens     | ⚡ Fast     | Lightweight, good for local prototyping                  | Limited high-level understanding               | ✅             |
-| **O3-Mini**         | 128K tokens     | ⚡ Very fast | Tiny, efficient for simple tasks                         | Not suitable for large codebases               | ✅             |
+| **Llama 3.2 70B**   | 128K tokens     | 🐢 Moderate  | Good multi-language code generation, well-rounded       | Requires significant hardware resources        | ✅             |
+| **CodeLlama 70B**   | 100K tokens     | 🐢 Moderate  | Strong code completion, specialized for programming tasks | Less effective for mixed code/text reasoning   | ✅             |
+| **Qwen 3 7B**       | 32K tokens      | ⚡⚡ Very fast | Efficient, low resource requirements                    | Limited context window, simpler reasoning      | ✅             |
+| **O1 (OpenChat)**   | 128K tokens     | ⚡ Fast     | Lightweight, good for local prototyping                  | Limited high-level understanding               | ❌             |
+| **O3-Mini**         | 128K tokens     | ⚡ Very fast | Tiny, efficient for simple tasks                         | Not suitable for large codebases               | ❌             |
 
 ---
 
@@ -92,12 +99,13 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 ---
 
 ## ✅ Conclusion
-
 As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our benchmark testing confirmed that:
 
 - **Claude Sonnet 3.7** remains one of the strongest cloud-based model for code reasoning and documentation generation.
-- **DeepSeek-R1**, while slightly less sophisticated, proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission.
+- **DeepSeek-R1** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission.
 - **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local).
 
 For enterprises seeking to combine performance with control, **Cody + DeepSeek-R1** presents a production-ready pairing that accelerates onboarding, enhances documentation, and respects codebase privacy—marking a major step toward **AI-augmented software development**.
+
+Additionally, locally-hosted models offer significant **cost advantages when centrally deployed on enterprise infrastructure**. Unlike per-seat SaaS pricing models of cloud solutions, organizations can leverage existing compute resources to serve multiple development teams from a centralized inference endpoint, providing economies of scale as adoption increases across the enterprise.
 
