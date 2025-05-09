@@ -1,25 +1,38 @@
-# 🧠 GenAI Tools for Knowledge Extraction & Technical Documentation in Enterprise Environments: A Comparative Analysis
+# GenAI Tools for Knowledge Extraction & Technical Documentation in Enterprise Environments: A Comparative Analysis
 
 **Authors:**  
 Erik Pegoraro - Lead Software Architect & People Lead - erik.pegoraro@zuhlke.com  
 Luis Sauerbronn - Lead Software Architect - luis.sauerbronn@zuhlke.com
 
 ## Abstract
-This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
+This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude Sonnet 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
 
 ## Table of Contents
-- [Project Vision](#-project-vision-accelerating-developer-onboarding-with-ai)
-- [Data Privacy & Security Considerations](#-data-privacy--security-considerations)
-- [Methodology](#-methodology)
-  - [Model Evaluation](#-model-evaluation)
-  - [IDE Plugin and Tool Evaluation](#-ide-plugin-and-tool-evaluation)
-  - [Test Codebase](#-test-codebase-azure-pet-store)
-- [Results](#-results)
-- [Conclusion](#-conclusion)
+- [Project Vision](#project-vision-accelerating-developer-onboarding-with-ai)
+  - [Data Privacy & Security Considerations](#data-privacy--security-considerations)
+- [Methodology](#methodology)
+  - [Model Evaluation](#model-evaluation)
+  - [IDE Plugin and Tool Evaluation](#ide-plugin-and-tool-evaluation)
+  - [Test Codebase: Azure Pet Store](#test-codebase-azure-pet-store)
+- [Results](#results)
+  - [Local RAG Chatbots](#local-rag-chatbots)
+  - [Commercial IDE Assistants](#commercial-ide-assistants)
+  - [Third Party Tools](#third-party-tools)
+- [Conclusion](#conclusion)
 
-## 🚀 Project Vision: Accelerating Developer Onboarding with AI
+## Project Vision: Accelerating Developer Onboarding with AI
 
-This nitiative into Generative AI (GenAI) tools aims at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
+Consultants are often called in to work on systems they didn’t build—legacy applications that have evolved over decades, or third-party solutions where access to the original developers is limited and documentation is scarce. These environments present a unique set of challenges:
+
+- **Missing or outdated documentation** makes onboarding slow and error-prone.
+- **Limited visibility** into third-party code internals, which forces developers to rely on external support channels or make educated guesses when troubleshooting issues.
+- **User interviews only work for “what,” not “how”**: We can ask stakeholders what the system does, but not how it works or how it was implemented.
+- **Outdated technologies and coding practice**s increase complexity and risk.
+- **High stakes for changes**, where even minor tweaks can have unexpected side effects.
+
+For consultants, much of the job becomes detective work: trying to understand how things are wired together, what the system is doing, and how to fix or extend it safely.
+
+This initiative into Generative AI (GenAI) tools aims at streamlining developer onboarding by automating technical documentation and runbook creation. The long-term goal is to reduce onboarding timelines by leveraging AI to understand codebases and generate support materials autonomously.
 
 The target outcome is an AI system capable of covering **80% of documentation and support tasks**, leaving only 20% for manual input. The envisioned tool would:
 
@@ -29,7 +42,7 @@ The target outcome is an AI system capable of covering **80% of documentation an
 - Generate architecture overviews and runbooks
 - Assist new developers with rapid ramp-up and contextual support
 
-### 🔐 Data Privacy & Security Considerations
+### Data Privacy & Security Considerations
 
 A major driver in selecting tools was **data governance**:
 
@@ -39,15 +52,15 @@ A major driver in selecting tools was **data governance**:
 
 ---
 
-## 🧪 Methodology
+## Methodology
 
 To assess how AI coding assistants can streamline onboarding and documentation, we tested several leading tools and models using the real-world [Azure Pet Store](https://azurepetstore.com/) application. The primary goal was to evaluate each solution's ability to understand code and business logic, assist in documentation, and accelerate developer ramp-up time.
 
-### 🤖 Model Evaluation
+### Model Evaluation
 
 We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptional performance in code reasoning and summarization tasks. It served as the reference point against which locally hosted models were compared.
 
-#### 🔍 Model Comparison
+#### Model Comparison
 
 | Model               | Context Length | Speed     | Code Exploration Strengths                               | Limitations                                    | Local Hosting |
 |---------------------|----------------|-----------|----------------------------------------------------------|------------------------------------------------|---------------|
@@ -64,7 +77,7 @@ We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptio
 
 ---
 
-### 🧰 IDE Plugin and Tool Evaluation
+### IDE Plugin and Tool Evaluation
 
 We focused on tools that could:
 - Integrate with **VS Code** (language/framework agnostic)
@@ -82,11 +95,11 @@ We focused on tools that could:
 
 ---
 
-### 💻 Test Codebase: Azure Pet Store
+### Test Codebase: Azure Pet Store
 
 Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase included:
 
-- Generating documentation for pet grooming services
+- Generating documentation for Pet Store services
 - Architecture and service map extraction
 - Runbook synthesis
 - Code chunking tests across small/large files
@@ -94,14 +107,38 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 
 ---
 
-## 📊 Results
+## Results
+
+### Local RAG Chatbots
+
+In our first approach, we each set out to build a retrieval augmented generation (RAG) chatbot from scratch. We began by parsing the codebase and splitting it into manageable “chunks,” which we then converted into vector embeddings. With this index in place, user questions could trigger a search for the most relevant snippets of code, and both the retrieved context and the query were submitted to a locally hosted Ollama model for response generation.
+
+As we worked, several challenges emerged. Selecting the right context proved especially tricky: deciding which files or code fragments to include in a given query was both labor-intensive and prone to error. When we broke large classes into smaller pieces, their meaning sometimes vanished; conversely, when chunks were too big, the model struggled to focus on the most critical details. On top of that, the local Ollama models we relied on had limited ability to interpret highly domain specific logic, which led to superficial or off base explanations at times. Furthermore, overcoming these context issues would require significant investment in building a more sophisticated tool—one capable of automating context selection, dynamic chunking, and seamless orchestration of information.
+
+Despite these hurdles, our RAG prototype demonstrated the core concept’s viability. It could retrieve code snippets, feed them to an LLM, and produce coherent answers—showing that a locally run RAG chatbot can, in principle, help consultants make sense of an unfamiliar codebase. However, to achieve the reliability and depth of insight we need in practice, this approach would demand more advanced prompt engineering and a smarter strategy for orchestrating and refining the contextual information fed to the model.
+
+### Commercial IDE Assistants
+
+When we turned to **JetBrains AI Assistant**, its integration into IntelliJ immediately felt natural. As we navigated the codebase, the assistant offered inline explanations of methods and classes right next to the source, and it suggested refactorings—everything from renaming variables for clarity to extracting common logic into helper functions. This tight IDE integration made it easy to see AI feedback in real time, without context switching. However, JetBrains AI Assistant often lost track of broader workflows: when a feature spanned several packages or modules, its recommendations focused narrowly on the current file and failed to tie together related pieces elsewhere in the project.
+
+By contrast, **GitHub Copilot** demonstrated a stronger grasp of cross file relationships and higher level structure. As we explored different parts of the codebase, Copilot not only generated clear, well commented code snippets, but also pointed us toward relevant modules we hadn’t yet opened. For example, when we asked about the system’s payment processing, Copilot suggested the specific service and configuration files where that logic lived—saving us the manual detective work of tracing interface calls across layers. Its explanations felt more coherent and connected, making it easier to understand how individual components fit into the overall architecture.
+
+In terms of **overall outcome**, Copilot’s cloud-based model won hands down for out of the box insight quality. Its larger, continuously trained backend delivered more nuanced answers and code suggestions without the heavy prompt tuning we needed elsewhere. The trade off, of course, is that every snippet or context window is sent to GitHub’s servers for processing—a fact that raises important data privacy considerations for any consulting engagement. Nonetheless, for teams comfortable with that model, Copilot proved to be the fastest path to actionable, system wide understanding.
+
+### Third Party Tools
+
+Aider offered some intriguing, specialized capabilities—like customizable retrieval pipelines and quick code annotations—but its integration felt more like an early prototype than a polished tool. In practice, switching between the IDE and external windows disrupted our flow, and certain features would occasionally break or return inconsistent results.
+
+By contrast, Sourcegraph Cody impressed with its seamless IDE integration: code suggestions, definitions, and references appeared inline as if built into the editor itself. Importantly, Cody can leverage a locally hosted LLM via Ollama, ensuring that the heavy inference work stays on-premises — although it still requires an Internet connection for licensing or metadata checks. When we paired it with a larger local model, Cody handled more complex queries with ease (for example, accurately pinpointing where the repository enforces order validation).
+
+**Outcome:** Cody delivered the best mix of usability, security, and depth of insight. Its tight IDE integration and on prem inference struck the right balance—but before rolling it out, we’ll need to verify exactly what metadata Cody sends externally and explore its fully on prem server option.
 
 ---
 
-## ✅ Conclusion
+## Conclusion
 As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our benchmark testing confirmed that:
 
-- **Claude Sonnet 3.7** remains one of the strongest cloud-based model for code reasoning and documentation generation.
+- **Claude Sonnet 3.7** remains one of the strongest cloud-based models for code reasoning and documentation generation.
 - **DeepSeek-R1** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission.
 - **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local).
 
