@@ -1,0 +1,81 @@
+Comprehensive Documentation of Pet Store Application Business Processes
+1. Features
+The Pet Store application supports the following primary features:
+
+Product Management: Users can browse, search, and view details of available products.
+Order Management: Customers can place orders, track their status, and manage order history.
+User Management: The system allows user registration, login, and role-based access control.
+Shopping Cart: Customers can add items to a shopping cart, review, and checkout.
+2. User Roles
+Based on the codebase, the following user roles are identified:
+
+Customer:
+
+Can browse products, view product details, add items to the cart, place orders, and track order status.
+Permissions: View products, manage cart, place orders, view order history.
+Admin:
+
+Has full access to manage users, products, and orders.
+Permissions: CRUD operations on users, products, and orders; manage roles and permissions.
+3. Key Business Workflows
+a. User Registration
+Description: New users can create an account in the system.
+Steps:
+User provides personal details (e.g., name, email, password).
+System validates input data and creates a new user record.
+Assigns default permissions based on user type (customer or admin).
+Data Entities: User (email, password, roles, permissions).
+Code References:
+API endpoint: /api/users/register
+Relevant classes: UserController, UserService.
+b. Order Placement
+Description: Customers can place orders for products they wish to purchase.
+Steps:
+Customer adds items to the cart.
+Customer reviews the cart and proceeds to checkout.
+System validates the order details (e.g., product availability, customer information).
+Order is created with a status of "PLACED".
+Data Entities: Order (id, email, products, shipDate, status).
+Code References:
+API endpoint: /api/orders
+Relevant classes: OrderController, OrderService.
+c. Order Fulfillment
+Description: Orders are processed and shipped to customers.
+Steps:
+Admin reviews the order details.
+Admin approves the order, changing its status to "APPROVED".
+System schedules a ship date for the order.
+Order is marked as "DELIVERED" once shipped.
+Data Entities: Order (status, shipDate).
+Code References:
+API endpoint: /api/orders/{id}/approve, /api/orders/{id}/ship
+Relevant classes: OrderController, OrderService.
+d. Product Management
+Description: Admins can manage product information.
+Steps:
+Admin adds a new product with details (e.g., name, description, price).
+Admin updates or deletes existing products as needed.
+Data Entities: Product (id, name, description, price, stock).
+Code References:
+API endpoints: /api/products, /api/products/{id}
+Relevant classes: ProductController, ProductService.
+4. Business Rules
+Role-Based Access Control:
+
+Only admins can perform CRUD operations on products and users.
+Customers are restricted to viewing product details, managing their cart, and placing orders.
+Order Status Transition:
+
+Orders must transition from "PLACED" to "APPROVED" before they can be shipped.
+Once an order is marked as "DELIVERED", it cannot be modified.
+Product Availability:
+
+Products with zero stock are not visible to customers in the product listing.
+5. Gaps and Assumptions
+Payment Processing:
+
+The codebase does not include payment processing logic, so this is assumed to be handled externally or integrated via a third-party service.
+Inventory Management:
+
+While the Product entity includes stock information, there is no explicit inventory management workflow in the provided code snippets.
+This documentation provides a high-level overview of the Pet Store application's business processes based on the provided code snippets and inferred functionality.

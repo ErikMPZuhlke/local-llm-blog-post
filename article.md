@@ -108,22 +108,63 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 ---
 
 ## Results
+Our exploration followed three distinct paths: building custom RAG solutions from scratch, evaluating commercial IDE assistants, and testing specialized third-party tools. Each approach revealed different strengths and limitations for enterprise documentation generation and code understanding.
+
+### Benchmark Prompt Comparison
+
+To evaluate different models' capabilities, we created a standardized benchmark prompt focused on business process extraction from code:
+
+```plaintext
+You are an AI assistant analyzing an application's codebase to generate documentation. Your task is to infer and describe 
+the primary business processes the application supports, based only on the provided codebase.
+Application Context: Pet Store is a complete e-commerce system.
+
+Instructions:
+* Analyze the codebase, focusing on API endpoint definitions, primary classes/modules, function names, data models/schemas, 
+  user interface elements (if frontend code is available), and comments.
+* Identify the main user-facing features or capabilities suggested by the code.
+* Infer potential user roles or types based on any authentication or authorization logic found. List the roles and their 
+  likely permissions.
+* Describe the key business workflows. For each workflow:
+  * Give it a descriptive name (e.g., "User Registration", "Order Placement", "Report Generation").
+  * Outline the likely sequence of steps from a user or system perspective.
+  * Mention the main data entities involved (e.g., "Customer", "Product", "Order").
+  * Reference specific code components (e.g., API endpoints, key functions/classes) that seem responsible for parts of the workflow.
+...
+```
+
+This prompt was applied consistently across all tested models to ensure fair comparison.
+
+#### Model Output Comparison
+
+| Model | Comprehensiveness | Code Reference Accuracy | Business Process Clarity |
+|-------|-------------------|-------------------------|--------------------------|
+| **Claude 3.7 Sonnet** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **DeepSeek-R1 32B** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **DeepSeek-R1 14B** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **CodeLlama 7B** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **Llama 3.2 3B** | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
+| **DeepSeek-R1 1.5B** | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+
+Claude 3.7 Sonnet produced the most comprehensive documentation, including detailed flow diagrams, authentication constraints, and accurate references to code components. DeepSeek-R1 32B came closest among local models, correctly identifying features like Order Processing and User Authentication with good accuracy. The 1.5B model variant, while faster, produced more general and less code-specific documentation.
+
+The larger models consistently demonstrated better contextual understanding—accurately identifying, for example, the multi-state workflow of order processing from PLACED → APPROVED → DELIVERED based solely on code inspection.
 
 ### Local RAG Chatbots
 
-In our first approach, we each set out to build a retrieval augmented generation (RAG) chatbot from scratch. We began by parsing the codebase and splitting it into manageable “chunks,” which we then converted into vector embeddings. With this index in place, user questions could trigger a search for the most relevant snippets of code, and both the retrieved context and the query were submitted to a locally hosted Ollama model for response generation.
+In our first approach, we each set out to build a retrieval augmented generation (RAG) chatbot from scratch. We began by parsing the codebase and splitting it into manageable "chunks," which we then converted into vector embeddings. With this index in place, user questions could trigger a search for the most relevant snippets of code, and both the retrieved context and the query were submitted to a locally hosted Ollama model for response generation.
 
 As we worked, several challenges emerged. Selecting the right context proved especially tricky: deciding which files or code fragments to include in a given query was both labor-intensive and prone to error. When we broke large classes into smaller pieces, their meaning sometimes vanished; conversely, when chunks were too big, the model struggled to focus on the most critical details. On top of that, the local Ollama models we relied on had limited ability to interpret highly domain specific logic, which led to superficial or off base explanations at times. Furthermore, overcoming these context issues would require significant investment in building a more sophisticated tool—one capable of automating context selection, dynamic chunking, and seamless orchestration of information.
 
-Despite these hurdles, our RAG prototype demonstrated the core concept’s viability. It could retrieve code snippets, feed them to an LLM, and produce coherent answers—showing that a locally run RAG chatbot can, in principle, help consultants make sense of an unfamiliar codebase. However, to achieve the reliability and depth of insight we need in practice, this approach would demand more advanced prompt engineering and a smarter strategy for orchestrating and refining the contextual information fed to the model.
+Despite these hurdles, our RAG prototype demonstrated the core concept's viability. It could retrieve code snippets, feed them to an LLM, and produce coherent answers—showing that a locally run RAG chatbot can, in principle, help consultants make sense of an unfamiliar codebase. However, to achieve the reliability and depth of insight we need in practice, this approach would demand more advanced prompt engineering and a smarter strategy for orchestrating and refining the contextual information fed to the model. Further refinements made on this codebase, by using storing hierarchical information as a graph, and using a graph database to store the information (GraphRAG) proved a substantial improvement, revealing that appart from the model selection, one of the most relevant factors for the performance of the chatbot is the ability to select the right context. Comparatively, following this approach was much more time-consuming than using a pre-built solution. Educationally valid, but not cost-effective for enterprise use.
 
 ### Commercial IDE Assistants
 
 When we turned to **JetBrains AI Assistant**, its integration into IntelliJ immediately felt natural. As we navigated the codebase, the assistant offered inline explanations of methods and classes right next to the source, and it suggested refactorings—everything from renaming variables for clarity to extracting common logic into helper functions. This tight IDE integration made it easy to see AI feedback in real time, without context switching. However, JetBrains AI Assistant often lost track of broader workflows: when a feature spanned several packages or modules, its recommendations focused narrowly on the current file and failed to tie together related pieces elsewhere in the project.
 
-By contrast, **GitHub Copilot** demonstrated a stronger grasp of cross file relationships and higher level structure. As we explored different parts of the codebase, Copilot not only generated clear, well commented code snippets, but also pointed us toward relevant modules we hadn’t yet opened. For example, when we asked about the system’s payment processing, Copilot suggested the specific service and configuration files where that logic lived—saving us the manual detective work of tracing interface calls across layers. Its explanations felt more coherent and connected, making it easier to understand how individual components fit into the overall architecture.
+By contrast, **GitHub Copilot** demonstrated a stronger grasp of cross file relationships and higher level structure. As we explored different parts of the codebase, Copilot not only generated clear, well commented code snippets, but also pointed us toward relevant modules we hadn't yet opened. For example, when we asked about the system's payment processing, Copilot suggested the specific service and configuration files where that logic lived—saving us the manual detective work of tracing interface calls across layers. Its explanations felt more coherent and connected, making it easier to understand how individual components fit into the overall architecture.
 
-In terms of **overall outcome**, Copilot’s cloud-based model won hands down for out of the box insight quality. Its larger, continuously trained backend delivered more nuanced answers and code suggestions without the heavy prompt tuning we needed elsewhere. The trade off, of course, is that every snippet or context window is sent to GitHub’s servers for processing—a fact that raises important data privacy considerations for any consulting engagement. Nonetheless, for teams comfortable with that model, Copilot proved to be the fastest path to actionable, system wide understanding.
+In terms of **overall outcome**, Copilot's cloud-based model won hands down for out of the box insight quality. Its larger, continuously trained backend delivered more nuanced answers and code suggestions without the heavy prompt tuning we needed elsewhere. The trade off, of course, is that every snippet or context window is sent to GitHub's servers for processing—a fact that raises important data privacy considerations for any consulting engagement. Nonetheless, for teams comfortable with that model, Copilot proved to be the fastest path to actionable, system wide understanding.
 
 ### Third Party Tools
 
@@ -131,16 +172,22 @@ Aider offered some intriguing, specialized capabilities—like customizable retr
 
 By contrast, Sourcegraph Cody impressed with its seamless IDE integration: code suggestions, definitions, and references appeared inline as if built into the editor itself. Importantly, Cody can leverage a locally hosted LLM via Ollama, ensuring that the heavy inference work stays on-premises — although it still requires an Internet connection for licensing or metadata checks. When we paired it with a larger local model, Cody handled more complex queries with ease (for example, accurately pinpointing where the repository enforces order validation).
 
-**Outcome:** Cody delivered the best mix of usability, security, and depth of insight. Its tight IDE integration and on prem inference struck the right balance—but before rolling it out, we’ll need to verify exactly what metadata Cody sends externally and explore its fully on prem server option.
+**Outcome:** Cody delivered the best mix of usability, security, and depth of insight. Its tight IDE integration and on prem inference struck the right balance—but before rolling it out, we'll need to verify exactly what metadata Cody sends externally and explore its fully on prem server option.
+
+
 
 ---
 
 ## Conclusion
-As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our benchmark testing confirmed that:
+As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our comprehensive evaluation across custom RAG solutions, commercial IDE assistants, and specialized third-party tools revealed distinct trade-offs between capabilities and security concerns.
 
-- **Claude Sonnet 3.7** remains one of the strongest cloud-based models for code reasoning and documentation generation.
-- **DeepSeek-R1** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission.
-- **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local).
+Our benchmark testing confirmed that:
+
+- **Claude Sonnet 3.7** remains one of the strongest cloud-based models for code reasoning and documentation generation, consistently producing the most comprehensive documentation with accurate flow diagrams and code references.
+- **DeepSeek-R1** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission, with its 32B variant approaching cloud-model quality for business process understanding.
+- **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local), while maintaining seamless editor integration.
+
+The exploration highlighted crucial challenges in knowledge extraction - particularly context selection and dynamic chunking - that even leading models struggle with. Our custom RAG prototypes demonstrated these difficulties firsthand, showing that while technically viable, custom solutions require significant engineering investment to match pre-built alternatives.
 
 For enterprises seeking to combine performance with control, **Cody + DeepSeek-R1** presents a production-ready pairing that accelerates onboarding, enhances documentation, and respects codebase privacy—marking a major step toward **AI-augmented software development**.
 

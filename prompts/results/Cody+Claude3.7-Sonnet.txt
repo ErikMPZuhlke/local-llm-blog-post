@@ -1,0 +1,170 @@
+Pet Store Application Business Processes Documentation
+Features
+Based on the provided codebase, the Pet Store application appears to support the following main features:
+
+    User Authentication and Session Management
+    Pet and Product Browsing
+    Shopping Cart Management
+    Order Processing
+    Audio AI Integration
+    Telemetry and Logging
+
+User Roles
+From the codebase, I can infer the following user roles:
+
+Guest Users
+    Can browse pets and products
+    Limited access to features
+    Identified by the default name "Guest" in the User model
+
+Authenticated Users
+    Can browse pets and products
+    Can add items to cart
+    Can complete orders
+    Have a unique session ID and email
+
+Admin/Special Access Users
+    Have access to special features like Audio AI
+    Determined by email-based access control lists
+
+Key Business Workflows
+
+1. User Authentication
+Description: Users can log in to access personalized features and complete purchases.
+
+Steps:
+
+User accesses the login page
+User provides credentials
+System validates credentials and creates a session
+User receives a session ID, JSESSIONID, and CSRF token for security
+Data Entities: User
+
+Code Components:
+
+User.java contains session management properties (sessionId, jSessionId, csrfToken)
+Authentication logic appears to be implemented but not fully visible in the provided code snippets
+Business Rules:
+
+Users must have a valid session to complete orders (from RestAPIController.java: "Please login to complete your order")
+CSRF token validation is enforced for cart completion (from RestAPIController.java)
+
+2. Pet/Product Browsing
+Description: Users can browse available pets and products in the store.
+
+Steps:
+
+User accesses the product catalog
+System retrieves pet/product data
+User views pet/product details
+Data Entities: Pet, Product, Category
+
+Code Components:
+
+Pet.java defines the pet model with name and category
+User.java contains lists for pets and products
+Business Rules:
+
+The system intentionally avoids caching to ensure service calls are made each time (as noted in comments in User.java)
+
+3. Shopping Cart Management
+Description: Users can add items to their cart and manage cart contents.
+
+Steps:
+
+User selects items to add to cart
+System updates cart count
+User can view cart contents
+Data Entities: User, Product
+
+Code Components:
+
+User.java contains a cartCount property
+Cart management logic is implied but not fully visible in the provided code
+
+4. Order Processing
+Description: Users can complete their orders after adding items to cart.
+
+Steps:
+
+User reviews cart contents
+User initiates order completion
+System validates CSRF token
+System processes the order
+Cart is emptied
+Data Entities: Order, User, Product
+
+Code Components:
+
+RestAPIController.java contains the /api/completecart endpoint
+Order.java defines the order model with status, products, and completion state
+Business Rules:
+
+Users must be logged in to complete orders
+CSRF token validation is required for order completion
+Orders have different statuses (PLACED, APPROVED, DELIVERED) as defined in Order.java
+
+5. Audio AI Integration
+Description: Special users can access audio AI features for enhanced search capabilities.
+
+Steps:
+
+User attempts to access the audio AI feature
+System validates user's email against an access list
+If authorized, user can access audio search functionality
+Data Entities: User
+
+Code Components:
+
+WebAppController.java contains the /audioAI endpoint
+Access control is implemented based on user email
+Business Rules:
+
+Access to audio AI features is restricted to users whose emails are in the audioAccessList
+Unauthorized users are redirected to the login page
+Flow Diagram for Order Completion
+User -> Shopping Cart -> Review Cart
+Review Cart -> [Authentication Check] -> Not Authenticated -> Login Page
+Review Cart -> [Authentication Check] -> Authenticated -> Order Confirmation
+Order Confirmation -> [CSRF Validation] -> Invalid -> Error Message
+Order Confirmation -> [CSRF Validation] -> Valid -> Order Processing
+Order Processing -> Order Complete -> Empty Cart
+
+Copy
+
+
+Core Business Rules
+Authentication Requirements
+
+Users must be authenticated to complete orders
+Session management includes sessionId, jSessionId, and CSRF tokens
+Access Control
+
+Special features like Audio AI are restricted to authorized users based on email
+Order Status Management
+
+Orders follow a defined lifecycle (PLACED, APPROVED, DELIVERED)
+Security Measures
+
+CSRF token validation for sensitive operations
+Session tracking for user identification
+Telemetry and Logging
+
+The application tracks user events and logs headers for monitoring purposes
+Gaps and Uncertainties
+User Registration Process
+
+The code snippets don't clearly show how new users are registered
+Payment Processing
+
+No clear indication of payment processing workflows
+Inventory Management
+
+While the models for pets and products exist, the inventory management process is not clearly defined
+Admin Functionality
+
+Limited visibility into administrative features beyond access control for Audio AI
+Return/Refund Processing
+
+No clear indication of how returns or refunds are handled
+This documentation is based on the available code snippets and may not represent the complete functionality of the Pet Store application.

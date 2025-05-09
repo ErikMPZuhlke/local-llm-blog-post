@@ -1,0 +1,64 @@
+Pet Store Application Business Processes
+
+Features:
+
+Product Search: The application allows customers to search for products by name, category, or price range.
+Product Details: Customers can view detailed product information, including description, images, and reviews.
+Shopping Cart: Customers can add products to their shopping cart and remove items as needed.
+Checkout: Customers can proceed to checkout by providing their shipping and billing information.
+Order Confirmation: Customers receive an order confirmation email with details of their purchase.
+User Roles:
+
+Customer: Customers can browse products, add items to their shopping cart, checkout, and manage their account information.
+Staff: Staff members can assist customers with orders, answer questions about products, and perform other administrative tasks.
+Workflows:
+
+1. User Registration
+A user registers for an account by providing their personal information and creating a password.
+The system creates a new account and sends the user an email confirming their registration.
+Main data entities involved: Customer
+Reference code components:
+/api/users/register API endpoint
+User class in models.py
+Core business rules enforced by validation logic:
+Email address must be unique
+Password must meet minimum security requirements
+2. Product Search
+A customer searches for products by name, category, or price range.
+The system returns a list of matching products to the customer.
+Main data entities involved: Product
+Reference code components:
+/api/products/search API endpoint
+Product class in models.py
+Core business rules enforced by validation logic:
+Search query must be valid
+3. Order Placement
+A customer adds products to their shopping cart and proceeds to checkout.
+The system processes the order and sends the customer an order confirmation email.
+Main data entities involved: Order, Product
+Reference code components:
+/api/orders/place API endpoint
+Order class in models.py
+Core business rules enforced by validation logic:
+Payment method must be valid
+Shipping address must be valid
+4. Customer Account Management
+Customers can view and manage their account information, including order history and payment methods.
+The system updates the customer's account information and allows them to make changes as needed.
+Main data entities involved: Customer
+Reference code components:
+/api/users/profile API endpoint
+User class in models.py
+Core business rules enforced by validation logic:
+Account information must be valid
+Note: The above workflows and features are inferred from the provided codebase context. If key business processes seem missing or unclear, please note these gaps.
+
+Assumptions:
+
+The /api/users/register endpoint is used to create a new user account.
+The /api/products/search endpoint is used to search for products by name, category, or price range.
+The /api/orders/place endpoint is used to process an order and send an order confirmation email.
+The /api/users/profile endpoint is used to view and manage customer account information.
+Flow Diagrams:
+
+Due to the limitations of text-based representation, flow diagrams cannot be generated here. However, the above workflows can be represented as simple flowcharts or diagrams using tools like Mermaid syntax or online diagram generators.

@@ -1,0 +1,60 @@
+Business Processes of Pet Store Application
+1. User Authentication and Authorization
+Description: Users must create an account or log in to access certain features.
+Steps:
+User provides credentials (email/password).
+System authenticates the user.
+Session is created for logged-in users.
+Code Evidence: WebAppController.java checks sessionUser.getEmail(), indicating session management.
+2. Product Browsing and Management
+Description: Users can view products, add to cart, and manage inventory.
+Steps:
+User browses product listings.
+Adds items to shopping cart.
+Reviews cart before checkout.
+Code Evidence: Order class includes products, suggesting a cart system.
+3. Order Processing
+Description: Users can place orders with payment processing and track order status.
+Steps:
+User proceeds to checkout.
+Payment is processed (status changes to PENDING_PAYMENT).
+Once payment confirmed, status updates to COMPLETED.
+Code Evidence: Order class has status fields indicating different stages.
+4. Audio AI Features
+Description: Authorized users can access advanced audio features.
+Steps:
+User accesses /audioAI endpoint.
+System checks authorization based on email.
+If authorized, displays audio search results.
+Code Evidence: WebAppController.java has an endpoint for audioAI with access checks.
+5. Inventory Management
+Description: The system manages product availability and stock levels.
+Steps:
+Products are listed with available quantities.
+System updates inventory upon order placement.
+Inference: Likely managed through database tables, though not explicitly shown in snippets.
+6. Communication Features (Video/Audio Integration)
+Description: Users can interact via webcam for AI or live chat features.
+Steps:
+User initiates a video session.
+Camera positioning is calculated for optimal interaction.
+Code Evidence: camera.js and proxyVideo.js suggest integration with video capabilities.
+User Roles
+Regular Users: Can log in, browse products, place orders, and track shipments.
+Authorized Users/Admins: Have access to restricted features like audioAI, implying additional permissions beyond regular users.
+Key Workflows
+User Registration/Login
+
+Users create accounts or log in using credentials.
+Session management is handled by the system.
+Product Interaction
+
+Browsing products, adding to cart, and reviewing orders are core functionalities.
+Order Checkout
+
+Process includes payment handling and order status tracking through predefined states.
+Authorized Feature Access
+
+Certain users can access advanced features like audio AI after successful authorization checks.
+Conclusion
+The Pet Store application supports a comprehensive e-commerce experience with user authentication, product management, order processing, and specialized features. The system likely has backend components for inventory and payment processing, though not explicitly detailed in the provided snippets. Further code review would be needed to fully understand all business rules and functionalities.

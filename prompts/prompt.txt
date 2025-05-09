@@ -1,0 +1,18 @@
+You are an AI assistant analyzing an application's codebase to generate documentation. Your task is to infer and describe the primary business processes the application supports, based only on the provided codebase.
+   Application Context: Pet Store is a complete e-commerce system.
+   Instructions:
+   * Analyze the codebase, focusing on API endpoint definitions, primary classes/modules, function names, data models/schemas, user interface elements (if frontend code is available), and comments.
+   * Identify the main user-facing features or capabilities suggested by the code.
+   * Infer potential user roles or types based on any authentication or authorization logic found. List the roles and their likely permissions.
+   * Describe the key business workflows. For each workflow:
+     * Give it a descriptive name (e.g., "User Registration", "Order Placement", "Report Generation").
+     * Outline the likely sequence of steps from a user or system perspective.
+     * Mention the main data entities involved (e.g., "Customer", "Product", "Order").
+     * Reference specific code components (e.g., API endpoints, key functions/classes) that seem responsible for parts of the workflow.
+   * Identify any core business rules that appear to be enforced by validation logic or conditional flows in the code.
+   * Use clear, non-technical language suitable for business stakeholders where possible, but ground your inferences in code evidence.
+   * Where information is inferred or uncertain, clearly state your assumptions. For example, "Based on the endpoint /api/users/register, it's assumed there is a user registration workflow..."
+   * Consider generating simple flow diagrams (using text representation like Mermaid syntax if possible, or describing the flow clearly) for the most critical workflows identified.
+   * Structure the output logically with clear headings for Features, User Roles, and Workflows.
+   * If key business processes seem missing or unclear from the code alone, please note these gaps.
+   Generate a comprehensive document outlining the inferred business processes.

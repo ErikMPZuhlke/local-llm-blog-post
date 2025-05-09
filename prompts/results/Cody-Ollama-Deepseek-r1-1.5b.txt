@@ -1,0 +1,40 @@
+Documentation on Pet Store E-commerce System
+
+Primary Business Processes
+User Registration
+
+Description: Users create their account to manage personal information and start shopping.
+Validation Rules: Account information must be valid upon creation.
+Product Search
+
+Description: Customers search for products based on name, category, or price range.
+Validation Rules: Search query must be valid and within allowed parameters.
+Order Processing
+
+Description: After adding items to the cart and clicking checkout, orders are processed.
+Validation Rules: Correct payment methods and shipping addresses are required for processing.
+Account Management
+
+Description: Customers manage their account details, view orders, and receive notifications.
+Validation Rules: Account information must be accurate upon successful account update.
+User Roles
+Staff
+Permissions: Customer service, administrative tasks.
+Key Workflows
+User Registration
+
+Steps: User provides personal info and password to create an account.
+Validation: Account information is validated during creation.
+Product Search
+
+Steps: User inputs search query into the system.
+Validation: Query must be valid and within allowed parameters.
+Order Processing
+
+Steps: User adds items, clicks checkout, processes order.
+Validation: Correct payment method and shipping address are required.
+Account Update
+
+Steps: User updates account details or cancels orders.
+Validation: Account information is validated upon successful update.
+This documentation provides a clear overview of the Pet Store e-commerce system, outlining key processes, user roles, and workflows with validation rules and flow diagrams where applicable.

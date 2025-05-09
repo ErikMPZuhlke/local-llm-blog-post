@@ -1,0 +1,52 @@
+Pet Store Application Business Processes:
+
+Features:
+
+    User Registration: Users can register for an account on the Pet Store website by providing their personal information and creating a password.
+    Product Search: Customers can search for products by name, category, or price range.
+    Product Details: Customers can view detailed product information, including description, images, and reviews.
+    Shopping Cart: Customers can add products to their shopping cart and remove items as needed.
+    Checkout: Customers can proceed to checkout by providing their shipping and billing information.
+    Order Confirmation: Customers receive an order confirmation email with details of their purchase.
+    Product Reviews: Customers can leave reviews for products they have purchased.
+    Wishlist: Customers can add products to their wishlist for later reference.
+    Customer Account: Customers can view and manage their account information, including order history and payment methods.
+    Administrator Dashboard: Pet Store administrators can view dashboard statistics, including sales data, customer activity, and product inventory.
+
+User Roles:
+
+    Customer: Customers can browse products, add items to their shopping cart, checkout, and manage their account information.
+    Administrator: Administrators have access to the administrator dashboard and can view statistics on sales data, customer activity, and product inventory.
+    Staff: Staff members can assist customers with orders, answer questions about products, and perform other administrative tasks.
+
+Workflows:
+
+    User Registration:
+        A user registers for an account by providing their personal information and creating a password.
+        The system creates a new account and sends the user an email confirming their registration.
+    Product Search:
+        A customer searches for products by name, category, or price range.
+        The system returns a list of matching products to the customer.
+    Product Details:
+        A customer views detailed product information, including description, images, and reviews.
+        The system displays the product details and allows the customer to add the product to their shopping cart or view more information about the product.
+    Shopping Cart:
+        A customer adds products to their shopping cart and removes items as needed.
+        The system updates the shopping cart with the latest product information and allows the customer to proceed to checkout.
+    Checkout:
+        A customer proceeds to checkout by providing their shipping and billing information.
+        The system processes the order and sends the customer an order confirmation email.
+    Order Confirmation:
+        Customers receive an order confirmation email with details of their purchase, including product name, quantity, and price.
+    Product Reviews:
+        Customers can leave reviews for products they have purchased.
+        The system displays the product reviews and allows customers to edit or delete their own reviews.
+    Wishlist:
+        Customers can add products to their wishlist for later reference.
+        The system displays the customer's wishlist and allows them to remove items from the list.
+    Customer Account:
+        Customers can view and manage their account information, including order history and payment methods.
+        The system updates the customer's account information and allows them to make changes as needed.
+    Administrator Dashboard:
+        Pet Store administrators can view dashboard statistics, including sales data, customer activity, and product inventory.
+        The system displays the administrator dashboard and allows them to view more detailed statistics and perform other administrative tasks.
