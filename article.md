@@ -5,7 +5,7 @@ Erik Pegoraro - Lead Software Architect & People Lead - erik.pegoraro@zuhlke.com
 Luis Sauerbronn - Lead Software Architect - luis.sauerbronn@zuhlke.com
 
 ## Abstract
-This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude Sonnet 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1,codellama, llama 3.2, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
+This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude Sonnet 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1, codellama, Devstral, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
 
 ## Table of Contents
 - [Project Vision](#project-vision-accelerating-developer-onboarding-with-ai)
@@ -56,6 +56,8 @@ A major driver in selecting tools was **data governance**:
 
 To assess how AI coding assistants can streamline onboarding and documentation, we tested several leading tools and models using the real-world [Azure Pet Store](https://azurepetstore.com/) application. The primary goal was to evaluate each solution's ability to understand code and business logic, assist in documentation, and accelerate developer ramp-up time.
 
+For our evaluation prompts, we leveraged the comprehensive framework provided by the [Defra AI SDLC Playbook](https://github.com/DEFRA/defra-ai-sdlc/tree/main), which offers structured guidance on integrating AI into the Software Development Lifecycle. This approach ensured we tested tools with enterprise-grade prompting techniques rather than ad-hoc queries, providing more reliable assessment of each solution's capabilities in professional environments.
+
 ### Model Evaluation
 
 We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptional performance in code reasoning and summarization tasks. It served as the reference point against which locally hosted models were compared.
@@ -65,15 +67,16 @@ We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptio
 | Model               | Context Length | Speed     | Code Exploration Strengths                               | Limitations                                    | Local Hosting |
 |---------------------|----------------|-----------|----------------------------------------------------------|------------------------------------------------|---------------|
 | **Claude Sonnet 3.7** | 200K tokens     | ⚡ Fast     | Excellent reasoning, long-context support, deep code comprehension | Cloud-only                                      | ❌             |
-| **Claude Sonnet Thinking 3.7** | 200K tokens     | 🐢 Slower   | Strong logical depth, more accurate in complex flows      | Slower, sometimes verbose                      | ❌             |
-| **Gemini 1.5 Flash** | 1M tokens       | ⚡⚡ Very fast | Efficient with large contexts, fast recall               | Weaker code understanding depth                | ❌             |
 | **GPT-4o**          | 128K tokens     | ⚡⚡ Very fast | Strong NL/code interaction, solid doc generation         | Smaller context, cloud-based                   | ❌             |
-| **DeepSeek-R1**     | 128K tokens     | ⚡ Fast     | Open-source model, excellent local deployment option     | Slightly behind Claude in nuanced reasoning    | ✅             |
-| **Llama 3.2 70B**   | 128K tokens     | 🐢 Moderate  | Good multi-language code generation, well-rounded       | Requires significant hardware resources        | ✅             |
-| **CodeLlama 70B**   | 100K tokens     | 🐢 Moderate  | Strong code completion, specialized for programming tasks | Less effective for mixed code/text reasoning   | ✅             |
+| **Gemini 1.5 Pro**  | 1M tokens       | ⚡ Fast     | Efficient with large contexts, good recall               | Weaker code understanding depth                | ❌             |
+| **DeepSeek-R1 32B** | 128K tokens     | 🐢 Moderate | Excellent for code understanding, strong documentation    | Requires significant GPU memory                | ✅             |
+| **DeepSeek-R1 14B** | 128K tokens     | ⚡ Fast     | Good balance of performance and resource requirements    | Less nuanced than larger models                | ✅             |
+| **CodeLlama 34B**   | 100K tokens     | 🐢 Moderate | Strong code completion and comprehension                 | High resource requirements, narrower reasoning | ✅             |
+| **Devstral 24B**    | 128K tokens     | 🐢 Moderate | Specialized for code understanding                       | Limited general knowledge                      | ✅             |
+| **Qwen 3 32B**      | 128K tokens     | 🐢 Moderate | Well-rounded performance for code and documentation      | Requires significant hardware resources        | ✅             |
 | **Qwen 3 7B**       | 32K tokens      | ⚡⚡ Very fast | Efficient, low resource requirements                    | Limited context window, simpler reasoning      | ✅             |
-| **O1 (OpenChat)**   | 128K tokens     | ⚡ Fast     | Lightweight, good for local prototyping                  | Limited high-level understanding               | ❌             |
-| **O3-Mini**         | 128K tokens     | ⚡ Very fast | Tiny, efficient for simple tasks                         | Not suitable for large codebases               | ❌             |
+| **DeepSeek-R1 1.5B**| 32K tokens      | ⚡⚡⚡ Ultra fast | Extremely lightweight, runs on modest hardware          | Limited comprehension of complex codebases     | ✅             |
+| **Llama 3.2 3B**    | 32K tokens      | ⚡⚡ Very fast | Good for simple tasks and code suggestions              | Limited deep reasoning capabilities            | ✅             |
 
 ---
 
@@ -104,6 +107,19 @@ Tasks executed on the [Azure Pet Store](https://azurepetstore.com/) codebase inc
 - Runbook synthesis
 - Code chunking tests across small/large files
 - Cross-file comprehension checks
+
+---
+
+### Hardware considerations
+For local model testing, we used Apple Silicon M2 PRO with 32GB VRAM, which allowed us to run larger models like DeepSeek-R1 and CodeLlama somewhat effectively. Smaller models like Qwen 3 7B could run on lower-end GPUs (e.g., RTX 3060) but with reduced performance.
+
+Based on [TabbyML recommendations](https://tabby.tabbyml.com/docs/models/):
+
+- **Small models (1B-3B)**: NVIDIA T4, 10 Series, or 20 Series GPUs; Apple Silicon (M1 or newer)
+- **Medium to large models (7B-13B)**: NVIDIA V100, A100, 30 Series, or 40 Series GPUs
+- **Very large models (32B+)**: High-end consumer GPUs (RTX 4090) or enterprise-grade hardware
+
+Most local models we tested could run on consumer hardware, but performance and response times varied significantly. The smaller Qwen and DeepSeek variants were usable on mid-range GPUs, while the 32B DeepSeek-R1 model required high-end hardware for reasonable inference speeds.
 
 ---
 
