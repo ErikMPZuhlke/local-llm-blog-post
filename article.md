@@ -56,16 +56,15 @@ A major driver in selecting tools was **data governance**:
 
 To assess how AI coding assistants can streamline onboarding and documentation, we tested several leading tools and models using the real-world [Azure Pet Store](https://azurepetstore.com/) application. The primary goal was to evaluate each solution's ability to understand code and business logic, assist in documentation, and accelerate developer ramp-up time.
 
-For our evaluation prompts, we leveraged the comprehensive framework provided by the [Defra AI SDLC Playbook](https://github.com/DEFRA/defra-ai-sdlc/tree/main), which offers structured guidance on integrating AI into the Software Development Lifecycle. This approach ensured we tested tools with enterprise-grade prompting techniques rather than ad-hoc queries, providing more reliable assessment of each solution's capabilities in professional environments.
-
 ### Model Evaluation
 
-We selected **Claude Sonnet 3.7** as our **benchmark model** due to its exceptional performance in code reasoning and summarization tasks. It served as the reference point against which locally hosted models were compared.
+We selected **Claude Sonnet 3.7** as our **benchmark model** for this evaluation, which was conducted prior to the release of Claude Sonnet 4. At the time of testing, Sonnet 3.7 represented the state-of-the-art for code reasoning and summarization tasks, making it the appropriate reference point against which locally hosted models were compared. While Claude Sonnet 4 has since been released and shows promising improvements, our comprehensive evaluation framework and findings remain valid as they establish a consistent baseline for enterprise AI tool selection. Future evaluations would benefit from including Sonnet 4 as an updated benchmark.
 
 #### Model Comparison
 
 | Model               | Context Length | Speed     | Code Exploration Strengths                               | Limitations                                    | Local Hosting |
 |---------------------|----------------|-----------|----------------------------------------------------------|------------------------------------------------|---------------|
+| **Claude Sonnet 4** | 200K tokens     | ⚡ Fast     | State-of-the-art reasoning, superior code comprehension, advanced planning | Cloud-only, premium pricing                    | ❌             |
 | **Claude Sonnet 3.7** | 200K tokens     | ⚡ Fast     | Excellent reasoning, long-context support, deep code comprehension | Cloud-only                                      | ❌             |
 | **GPT-4o**          | 128K tokens     | ⚡⚡ Very fast | Strong NL/code interaction, solid doc generation         | Smaller context, cloud-based                   | ❌             |
 | **Gemini 1.5 Pro**  | 1M tokens       | ⚡ Fast     | Efficient with large contexts, good recall               | Weaker code understanding depth                | ❌             |
@@ -128,7 +127,7 @@ Our exploration followed three distinct paths: building custom RAG solutions fro
 
 ### Benchmark Prompt Comparison
 
-To evaluate different models' capabilities, we created a standardized benchmark prompt focused on business process extraction from code:
+To evaluate different models' capabilities, we leveraged the comprehensive framework provided by the [Defra AI SDLC Playbook](https://github.com/DEFRA/defra-ai-sdlc/tree/main), which offers structured guidance on integrating AI into the Software Development Lifecycle. This approach ensured we tested tools with enterprise-grade prompting techniques rather than ad-hoc queries, providing more reliable assessment of each solution's capabilities in professional environments. Furthermore, we created a standardized benchmark prompt focused on business process extraction from code:
 
 ```plaintext
 You are an AI assistant analyzing an application's codebase to generate documentation. Your task is to infer and describe 
