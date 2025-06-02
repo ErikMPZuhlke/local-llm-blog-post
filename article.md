@@ -8,6 +8,7 @@ Luis Sauerbronn - Lead Software Architect - luis.sauerbronn@zuhlke.com
 This exploration evaluates AI tools for code understanding and documentation generation, focusing on privacy-preserving options for enterprise environments. We benchmarked leading commercial models (Claude Sonnet 3.7, GPT-4o, Gemini 1.5) against locally-hostable alternatives (DeepSeek-R1, codellama, Devstral, Qwen 3) using the Azure Pet Store codebase as a test environment. Our assessment of IDE integrations revealed that Cody (Sourcegraph) with DeepSeek-R1 provides the optimal balance of robust code comprehension, documentation capabilities, and data privacy. This combination enables enterprises to accelerate developer onboarding and automate documentation while maintaining control over sensitive code assets - particularly valuable for organizations in regulated industries with strict data governance requirements.
 
 ## Table of Contents
+- [Disclaimer](#disclaimer)
 - [Project Vision](#project-vision-accelerating-developer-onboarding-with-ai)
   - [Data Privacy & Security Considerations](#data-privacy--security-considerations)
 - [Methodology](#methodology)
@@ -23,6 +24,13 @@ This exploration evaluates AI tools for code understanding and documentation gen
   - [Commercial IDE Assistants](#commercial-ide-assistants)
   - [Third Party Tools](#third-party-tools)
 - [Conclusion](#conclusion)
+
+## DISCLAIMER
+- You must get client approval before using any code on locally hosted LLMs. This is mandatory for all projects.
+- We don't have an official LLM policy yet. Our Product Usage Governance (PUG) board is still being formed. IT, data security, and legal teams will participate in creating these guidelines.
+- We are working on an LLM hosting solution, and our data centre is one of the candidates.. 
+- Until we establish formal policies, treat all LLM usage as requiring individual approval. When in doubt, ask InfoSec first.
+- This disclaimer applies to all locally hosted language models and related developer tools. Requirements may change as we develop comprehensive policies.
 
 ## Project Vision: Accelerating Developer Onboarding with AI
 
