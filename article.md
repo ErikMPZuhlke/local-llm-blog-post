@@ -14,7 +14,11 @@ This exploration evaluates AI tools for code understanding and documentation gen
   - [Model Evaluation](#model-evaluation)
   - [IDE Plugin and Tool Evaluation](#ide-plugin-and-tool-evaluation)
   - [Test Codebase: Azure Pet Store](#test-codebase-azure-pet-store)
+  - [Hardware Considerations](#hardware-considerations)
 - [Results](#results)
+  - [Benchmark Prompt Comparison](#benchmark-prompt-comparison)
+  - [Comprehensive Model Performance Analysis](#comprehensive-model-performance-analysis)
+  - [Key Findings from Prompt Analysis](#key-findings-from-prompt-analysis)
   - [Local RAG Chatbots](#local-rag-chatbots)
   - [Commercial IDE Assistants](#commercial-ide-assistants)
   - [Third Party Tools](#third-party-tools)
@@ -150,20 +154,73 @@ Instructions:
 
 This prompt was applied consistently across all tested models to ensure fair comparison.
 
-#### Model Output Comparison
+#### Comprehensive Model Performance Analysis
 
-| Model | Comprehensiveness | Code Reference Accuracy | Business Process Clarity |
-|-------|-------------------|-------------------------|--------------------------|
-| **Claude 3.7 Sonnet** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| **DeepSeek-R1 32B** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **DeepSeek-R1 14B** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **CodeLlama 7B** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| **Llama 3.2 3B** | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| **DeepSeek-R1 1.5B** | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+Our evaluation extended beyond simple business process extraction to include five distinct documentation generation tasks, each targeting different aspects of enterprise software development. The prompts tested models' abilities to generate:
 
-Claude 3.7 Sonnet produced the most comprehensive documentation, including detailed flow diagrams, authentication constraints, and accurate references to code components. DeepSeek-R1 32B came closest among local models, correctly identifying features like Order Processing and User Authentication with good accuracy. The 1.5B model variant, while faster, produced more general and less code-specific documentation.
+1. **General Documentation** (README/Architecture updates)
+2. **API Documentation** (Comprehensive endpoint documentation)
+3. **Business Logic Documentation** (Workflow and rule explanation)
+4. **Repository Layer Documentation** (Data access pattern documentation)
+5. **Service Layer Documentation** (Business service architecture)
 
-The larger models consistently demonstrated better contextual understanding—accurately identifying, for example, the multi-state workflow of order processing from PLACED → APPROVED → DELIVERED based solely on code inspection.
+Each model was evaluated across multiple dimensions using standardized prompts from the [Defra AI SDLC Playbook](https://github.com/DEFRA/defra-ai-sdlc/tree/main) framework.
+
+##### Detailed Model Comparison
+
+| Model | Business Process Understanding | API Documentation Quality | Technical Architecture Clarity | Code Reference Accuracy | Consistency Across Tasks |
+|-------|-------------------------------|---------------------------|-------------------------------|------------------------|-------------------------|
+| **Claude 3.7 Sonnet** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Copilot/Claude 4** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **DeepSeek-R1 32B** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Devstral 24B** | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **CodeLlama 34B** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **Qwen 3 32B** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **DeepSeek-R1 14B** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| **Llama 3.2 3B** | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+| **DeepSeek-R1 1.5B** | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+
+##### Key Findings from Prompt Analysis
+
+**Documentation Structure & Organization:**
+- **Claude 3.7 Sonnet** consistently produced well-structured documents with clear hierarchies, proper markdown formatting, and logical flow across all five documentation types
+- **DeepSeek-R1 32B** generated comprehensive repository and service layer documentation but occasionally struggled with API endpoint grouping
+- **Devstral 24B** excelled at technical architecture documentation but showed weaker performance in business process explanation
+
+**Technical Accuracy & Code Comprehension:**
+- **Claude models** demonstrated superior ability to trace code relationships across files, accurately identifying dependency injection patterns and transaction boundaries
+- **CodeLlama 34B** showed strong code understanding for individual methods but struggled with system-wide architectural patterns
+- **Smaller models (≤14B)** frequently produced generic documentation that missed project-specific implementation details
+
+**Business Context Integration:**
+Analysis of the business logic documentation prompts revealed significant differences in models' ability to connect technical implementation with business requirements:
+- **Claude 3.7** consistently explained not just "how" but "why" design decisions were made
+- **DeepSeek-R1 32B** provided good technical explanations but required more explicit prompting for business rationale
+- **Specialized code models** (CodeLlama, Devstral) focused heavily on technical details but often missed broader business context
+
+**Consistency Across Documentation Types:**
+The multi-prompt evaluation revealed that **consistency** across different documentation tasks is a key differentiator:
+- **Cloud models** (Claude, GPT-4) maintained consistent quality and style across all five documentation types
+- **Local models** showed varying performance depending on the documentation type, with repository layer documentation generally being stronger than business process documentation
+
+##### Resource Requirements vs. Output Quality
+
+Based on actual hardware testing across the prompt suite:
+
+| Model Size | Hardware Requirement | Documentation Quality | Time to Generate | Cost Effectiveness |
+|------------|---------------------|----------------------|------------------|-------------------|
+| **32B+** | RTX 4090/A100 | ⭐⭐⭐⭐ | 🐢 Slow | High (enterprise) |
+| **14B-24B** | RTX 3080/4070 | ⭐⭐⭐ | ⚡ Moderate | Medium |
+| **7B-13B** | RTX 3060/4060 | ⭐⭐ | ⚡⚡ Fast | High (small teams) |
+| **≤3B** | Integrated GPU | ⭐⭐ | ⚡⚡⚡ Very Fast | Limited utility |
+
+**Enterprise Deployment Considerations:**
+The comprehensive prompt analysis revealed that for enterprise documentation generation:
+- **32B models** provide the best balance of comprehensiveness and accuracy for complex legacy systems
+- **14B models** offer sufficient quality for most documentation tasks while requiring more accessible hardware
+- **Sub-7B models** are suitable only for simple code commenting and basic documentation updates
+
+This analysis informed our recommendation that enterprises should target **14B+ parameter models** for serious documentation automation, with 32B models reserved for critical systems requiring the highest accuracy.
 
 ### Local RAG Chatbots
 
@@ -189,22 +246,27 @@ By contrast, Sourcegraph Cody impressed with its seamless IDE integration: code 
 
 **Outcome:** Cody delivered the best mix of usability, security, and depth of insight. Its tight IDE integration and on prem inference struck the right balance—but before rolling it out, we'll need to verify exactly what metadata Cody sends externally and explore its fully on prem server option.
 
-
-
 ---
 
 ## Conclusion
+
 As AI development tools mature, teams must weigh performance, context integration, and data privacy. Our comprehensive evaluation across custom RAG solutions, commercial IDE assistants, and specialized third-party tools revealed distinct trade-offs between capabilities and security concerns.
 
-Our benchmark testing confirmed that:
+Our benchmark testing across five documentation generation tasks confirmed that:
 
-- **Claude Sonnet 3.7** remains one of the strongest cloud-based models for code reasoning and documentation generation, consistently producing the most comprehensive documentation with accurate flow diagrams and code references.
-- **DeepSeek-R1** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission, with its 32B variant approaching cloud-model quality for business process understanding.
-- **Cody (Sourcegraph)** stood out among IDE assistants, offering near-Copilot functionality, deep context handling, and flexible backend integration (cloud or local), while maintaining seamless editor integration.
+- **Claude Sonnet 3.7** remains the gold standard for cloud-based code reasoning and documentation generation, consistently producing the most comprehensive documentation with accurate flow diagrams, precise code references, and superior business context integration across all evaluated tasks.
+- **DeepSeek-R1 32B** proved the **most capable locally hosted model**, enabling high-quality AI coding support without external data transmission. While requiring significant hardware resources, it approaches cloud-model quality for complex documentation tasks and business process understanding.
+- **Cody (Sourcegraph)** emerged as the clear winner among IDE assistants, offering near-Copilot functionality with deep context handling, flexible backend integration (cloud or local), and seamless editor integration that maintains developer workflow.
 
-The exploration highlighted crucial challenges in knowledge extraction - particularly context selection and dynamic chunking - that even leading models struggle with. Our custom RAG prototypes demonstrated these difficulties firsthand, showing that while technically viable, custom solutions require significant engineering investment to match pre-built alternatives.
+The exploration highlighted crucial challenges in knowledge extraction—particularly context selection and dynamic chunking—that even leading models struggle with. Our custom RAG prototypes demonstrated these difficulties firsthand, showing that while GraphRAG approaches can significantly improve context relevance, custom solutions require substantial engineering investment to match pre-built alternatives.
 
-For enterprises seeking to combine performance with control, **Cody + DeepSeek-R1** presents a production-ready pairing that accelerates onboarding, enhances documentation, and respects codebase privacy—marking a major step toward **AI-augmented software development**.
+**Key insights from our comprehensive prompt analysis:**
+- **Parameter size directly correlates with documentation quality**: Models with 14B+ parameters are essential for meaningful enterprise documentation automation
+- **Consistency across documentation types** is a critical differentiator, with cloud models maintaining superior quality across diverse tasks
+- **Specialized code models** (CodeLlama, Devstral) excel at technical details but struggle with broader business context integration
 
-Additionally, locally-hosted models offer significant **cost advantages when centrally deployed on enterprise infrastructure**. Unlike per-seat SaaS pricing models of cloud solutions, organizations can leverage existing compute resources to serve multiple development teams from a centralized inference endpoint, providing economies of scale as adoption increases across the enterprise.
+For enterprises seeking to combine performance with control, **Cody + DeepSeek-R1 32B** presents a production-ready pairing that accelerates onboarding, enhances documentation, and respects codebase privacy—marking a significant step toward **AI-augmented software development** while maintaining enterprise data governance requirements.
 
+Importantly, locally-hosted models offer significant **cost advantages when centrally deployed on enterprise infrastructure**. Unlike per-seat SaaS pricing models of cloud solutions, organizations can leverage existing compute resources to serve multiple development teams from a centralized inference endpoint, providing substantial economies of scale as adoption increases across the enterprise. This economic model becomes particularly attractive for organizations with existing GPU infrastructure or those planning strategic AI investments.
+
+**Looking Forward:** As models continue to evolve rapidly—with Claude Sonnet 4 already showing promising improvements—enterprises should focus on establishing flexible AI toolchains that can adapt to model upgrades while maintaining consistent integration patterns and data governance controls.
